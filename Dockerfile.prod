@@ -1,0 +1,18 @@
+FROM golang AS builder
+
+WORKDIR /src
+
+COPY /src/hello.go .
+
+RUN go build hello.go
+
+
+# FROM alpine
+FROM scratch
+
+COPY --from=builder /src/hello .
+
+ENTRYPOINT ["./hello"]
+
+# docker build -t andgrande/codeeducation go -f go/Dockerfile.prod
+# docker run --rm --name golang -it andgrande/codeeducation
